@@ -1,4 +1,4 @@
 #' @useDynLib ELMSurv, .registration = TRUE
-#' @import survival
+#' @import survival RcppNumerical stats  glmnet
 #' @importFrom Rcpp evalCpp
 NULL

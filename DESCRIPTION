@@ -1,19 +1,16 @@
 Package: ELMSurv
 Type: Package
 Title: Extreme Learning Machine for Survival Analysis
-Version: 0.4
-Date: 2017-08-19
+Version: 0.6
+Date: 2019-05-27
 Author: Hong Wang
 Maintainer: Hong Wang <wh@csu.edu.cn>
-Description: We use the Buckley-James method to impute the data and extend the emerging Extreme Learning Machine approach to survival analysis. Currently, only right censored data are supported. For a detailed information, see the paper by Hong Wang, Jianxin Wang and Lifeng Zhou (2017) <https://github.com/whcsu/ELMSurv/blob/master/elmsurv-revised.pdf>, which will appear in Applied Intelligence <https://link.springer.com/journal/10489> soon.
-URL: https://github.com/whcsu/ELMSurv
+Description: First, we use the Buckley-James method to impute the data and extend the emerging extreme learning machine approach to survival analysis. Second, we present a kernel extreme learning machine Cox model regularized by an L_0-based broken adaptive ridge (BAR) penalization method. For a detailed information, see Hong Wang et al(2018) <DOI: 10.1007/s10489-017-1063-4>, Hong Wang and Gang Li(2019) <DOI:10.1002/sim.8090>.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.4),survival
-LinkingTo: Rcpp,RcppArmadillo
-RoxygenNote: 6.0.1
-Suggests: knitr, rmarkdown
-VignetteBuilder: knitr
+Imports: Rcpp,survival,RcppNumerical,glmnet
+LinkingTo: Rcpp,RcppArmadillo,RcppEigen, RcppNumerical
+RoxygenNote: 6.1.1
 NeedsCompilation: yes
-Packaged: 2017-09-03 17:20:31 UTC; wh
+Packaged: 2019-05-27 08:23:03 UTC; wh
 Repository: CRAN
-Date/Publication: 2017-09-03 17:36:53 UTC
+Date/Publication: 2019-05-27 09:00:17 UTC

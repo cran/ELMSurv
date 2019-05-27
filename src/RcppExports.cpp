@@ -2,10 +2,56 @@
 // Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #include <RcppArmadillo.h>
+#include <RcppEigen.h>
 #include <Rcpp.h>
 
 using namespace Rcpp;
 
+// cox_llk_cpp
+double cox_llk_cpp(Rcpp::IntegerVector y, SEXP XData, Rcpp::NumericVector beta, double lambda, Rcpp::NumericVector weight);
+RcppExport SEXP _ELMSurv_cox_llk_cpp(SEXP ySEXP, SEXP XDataSEXP, SEXP betaSEXP, SEXP lambdaSEXP, SEXP weightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type XData(XDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type weight(weightSEXP);
+    rcpp_result_gen = Rcpp::wrap(cox_llk_cpp(y, XData, beta, lambda, weight));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cox_grad_cpp
+arma::colvec cox_grad_cpp(Rcpp::IntegerVector y, SEXP XData, Rcpp::NumericVector beta, double lambda, Rcpp::NumericVector weight);
+RcppExport SEXP _ELMSurv_cox_grad_cpp(SEXP ySEXP, SEXP XDataSEXP, SEXP betaSEXP, SEXP lambdaSEXP, SEXP weightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type XData(XDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type weight(weightSEXP);
+    rcpp_result_gen = Rcpp::wrap(cox_grad_cpp(y, XData, beta, lambda, weight));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cox_dgrad_cpp
+arma::mat cox_dgrad_cpp(Rcpp::IntegerVector y, SEXP XData, Rcpp::NumericVector beta, double lambda, Rcpp::NumericVector weight);
+RcppExport SEXP _ELMSurv_cox_dgrad_cpp(SEXP ySEXP, SEXP XDataSEXP, SEXP betaSEXP, SEXP lambdaSEXP, SEXP weightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type XData(XDataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type weight(weightSEXP);
+    rcpp_result_gen = Rcpp::wrap(cox_dgrad_cpp(y, XData, beta, lambda, weight));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bjimpute
 Rcpp::NumericVector bjimpute(SEXP y, SEXP cen, SEXP x, SEXP inibeta);
 RcppExport SEXP _ELMSurv_bjimpute(SEXP ySEXP, SEXP cenSEXP, SEXP xSEXP, SEXP inibetaSEXP) {
@@ -17,6 +63,40 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
     Rcpp::traits::input_parameter< SEXP >::type inibeta(inibetaSEXP);
     rcpp_result_gen = Rcpp::wrap(bjimpute(y, cen, x, inibeta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mm_mult
+arma::mat mm_mult(NumericMatrix x, NumericMatrix y);
+RcppExport SEXP _ELMSurv_mm_mult(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(mm_mult(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// testDFtoNM
+Rcpp::NumericMatrix testDFtoNM(DataFrame x);
+RcppExport SEXP _ELMSurv_testDFtoNM(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(testDFtoNM(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// scaleNM
+Rcpp::List scaleNM(NumericMatrix x1);
+RcppExport SEXP _ELMSurv_scaleNM(SEXP x1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x1(x1SEXP);
+    rcpp_result_gen = Rcpp::wrap(scaleNM(x1));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -34,10 +114,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mrl
+Rcpp::NumericVector mrl(NumericVector y, NumericVector cen);
+RcppExport SEXP _ELMSurv_mrl(SEXP ySEXP, SEXP cenSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type cen(cenSEXP);
+    rcpp_result_gen = Rcpp::wrap(mrl(y, cen));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ELMSurv_cox_llk_cpp", (DL_FUNC) &_ELMSurv_cox_llk_cpp, 5},
+    {"_ELMSurv_cox_grad_cpp", (DL_FUNC) &_ELMSurv_cox_grad_cpp, 5},
+    {"_ELMSurv_cox_dgrad_cpp", (DL_FUNC) &_ELMSurv_cox_dgrad_cpp, 5},
     {"_ELMSurv_bjimpute", (DL_FUNC) &_ELMSurv_bjimpute, 4},
+    {"_ELMSurv_mm_mult", (DL_FUNC) &_ELMSurv_mm_mult, 2},
+    {"_ELMSurv_testDFtoNM", (DL_FUNC) &_ELMSurv_testDFtoNM, 1},
+    {"_ELMSurv_scaleNM", (DL_FUNC) &_ELMSurv_scaleNM, 1},
     {"_ELMSurv_kernmat", (DL_FUNC) &_ELMSurv_kernmat, 4},
+    {"_ELMSurv_mrl", (DL_FUNC) &_ELMSurv_mrl, 2},
     {NULL, NULL, 0}
 };
 

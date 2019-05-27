@@ -1,9 +1,37 @@
+#include <Rcpp.h>
 #include "mrl.h"
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iterator>
+#include <numeric>
+#include <string>
+#include <iostream>
 
 using namespace Rcpp;
 
+/**
+ * Get indices of sorted values
+ * @param values Values to sort
+ * @param decreasing Order decreasing
+ * @return Indices of sorted values
+ */
+template<typename T>
+std::vector<size_t> order(std::vector<T>& values, bool decreasing) {
+  // Create index vector
+  std::vector<size_t> indices(values.size());
+  std::iota(indices.begin(), indices.end(), 0);
+  
+  // Sort index vector based on value vector
+  if (decreasing) {
+    std::sort(std::begin(indices), std::end(indices), [&](size_t i1, size_t i2) {return values[i1] > values[i2];});
+  } else {
+    std::sort(std::begin(indices), std::end(indices), [&](size_t i1, size_t i2) {return values[i1] < values[i2];});
+  }
+  return indices;
+}
 
-
+// [[Rcpp::export]]
 Rcpp::NumericVector  mrl( NumericVector y, NumericVector cen) {
   //vector for Kaplan-MeierEstimator
   std::vector<double> time=as<std::vector<double> > (y);

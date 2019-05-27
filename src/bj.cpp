@@ -1,24 +1,10 @@
+#include "global.h"
 #include "mrl.h"
-
-
 // [[Rcpp::depends(RcppArmadillo)]]
 
 using namespace Rcpp;
 using namespace arma;
 
-// A Buckley-James Esitmator
-//  @title ELMSurv bjimpute
-// @param y  Survival time of training data. 
-// @param cen  The censoring indicator of training data.
-// @param x  The covariates(predictor variables) of training data.
-// @param inibeta   Initial values set for Buckley-James Imputation.
-// @return Imputed survival times
-// @seealso \code{\link{elm_surv}}
-// @author Hong Wang
-// @references
-// \itemize{
-//   \item Hong Wang et al (2017). A Survival Ensemble of Extreme Learning Machine. Applied Intelligence, in press.
-//  }
 // [[Rcpp::export]]
 Rcpp::NumericVector  bjimpute( SEXP y, SEXP cen,SEXP x, SEXP inibeta) {
 	//SEXP logscale, SEXP inibeta, SEXP maxit, SEXP tol, SEXP trace
@@ -56,7 +42,8 @@ Rcpp::NumericVector  bjimpute( SEXP y, SEXP cen,SEXP x, SEXP inibeta) {
 	Rcpp:: NumericVector eps (ynew.size());
 	Rcpp:: NumericVector epstar (ynew.size());	
     Rcpp:: NumericVector tmp (maxit);
-	 while (abs(dif)>=tol && iter<maxit) {
+	//change abs to fabs
+	 while (fabs(dif)>=tol && iter<maxit) {
     
        iter++;
 	   arma::vec tmp=mv_mult(xNM,beta);
@@ -65,11 +52,13 @@ Rcpp::NumericVector  bjimpute( SEXP y, SEXP cen,SEXP x, SEXP inibeta) {
        epstar = mrl(eps,cennew);
 	    // fit model y ~ X
 	   arma::colvec coef= arma::solve(as <arma::mat>(newx), as <arma::vec>(ystar));
+	   
 	   Rcpp:: NumericVector betatemp(coef.begin(), coef.end());
 	      
 	   //check convergence	
         betamat( iter, _)=betatemp; 
 		 for (int j=0; j<iter;j++) {
+			 //change abs to fabs
           tmp[iter]=max(abs(betamat(j,_)-betatemp));
         }  
 	     	   
@@ -88,7 +77,3 @@ Rcpp::NumericVector  bjimpute( SEXP y, SEXP cen,SEXP x, SEXP inibeta) {
 
  return (exp(ystar));
 }
-
-
-
-

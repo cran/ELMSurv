@@ -1,23 +1,23 @@
-##' A Survival Ensemble of Extreme Learning Machine
-##' @title ELMSurv ELMSurvEN
+##' A Survival Ensemble of Extreme Learning Machine Using the Buckley-James estimator
+##' @title  ELMBJEN
 ##' @param x  The covariates(predictor variables) of training data.
 ##' @param y  Survival time and censored status of training data. Must be a Surv  \code{survival} object
-##' @param testx  The covariates(predictor variables) of test data.
 ##' @param mtry   The number of covariates(predictor variables) used in each base ELM model. Default is the square root of the number of all avaibable covariates.
 ##' @param trlength  The ensemle size (the number of base ELM survival models). Default is 100.
 ##' @param Regularization_coefficient  Ridge or Tikhonov regularization parameter. Default is 10000. Also known as \eqn{C} in the ELM paper.
-##' @param Kernel_type Type of kernel matrix. Currently four options avaibable. "RBF_kernel",a RBF kernel;"lin_kernel" , a linear kernel;poly_kernel ,a polynomial kernel;sigmoid_kernel, a sigmoid kernel. Default is "lin_kernel".
+##' @param Kernel_type Type of kernel matrix. Currently four options avaibable. "RBF_kernel",a RBF kernel;"lin_kernel" , a linear kernel;"poly_kernel" ,a polynomial kernel;"sigmoid_kernel", a sigmoid kernel. Default is "lin_kernel".
 ##' @param Kernel_para Parameters for different types of kernels. A single value for RBF and linear kernels. A vector for polynomial and sigmoid kernels and progam stops if only a single value is supplied. However, if the vector of values is supplied in the cases of RBF and liner kernels, only the first value will be used. Default is a vector value "c(2,1)"
 ##' @return Object of class \code{ELMSurvEN} with elements
 ##'   \tabular{ll}{
-##'       \code{elmsurvfit}    \tab  A list of base models \code{elm_surv} of size \code{trlength}. To retrieve a particular base model: use  elmsurvfit[[i]], where i takes values between 1 and \code{trlength} \cr
-##'       \code{precitedtime} \tab Esitmated survival times of test data. \cr
+##'       \code{elmsurvfit}    \tab  A list of base models \code{ELMBJ} of size \code{trlength}. To retrieve a particular base model: use  elmsurvfit[[i]], where i takes values between 1 and \code{trlength} \cr
+##'       \code{colindexes} \tab Covaraite subspace index. \cr
+##'       \code{trlength} \tab Number of bases models trained. \cr
 ##'   }
-##' @seealso \code{\link{elm_surv}}
+##' @seealso \code{\link{ELMBJ}}
 ##' @author Hong Wang
 ##' @references
 ##' \itemize{
-##'   \item Hong Wang et al (2017). A Survival Ensemble of Extreme Learning Machine. Applied Intelligence, in press.
+##'   \item Hong Wang et al (2018). A Survival Ensemble of Extreme Learning Machine. Applied Intelligence, DOI:10.1007/s10489-017-1063-4.
 ##'  }
 ##' @examples
 ##' set.seed(123)
@@ -33,16 +33,11 @@
 ##' trset<-lung[L,]
 ##' teset<-lung[-L,]
 ##' rii=c(2,3)
-##' elmsurvmodel=ELMSurvEN(x=trset[,-rii],y=Surv(trset[,rii[1]], trset[,rii[2]]),testx=teset[,-c(rii)])
-##' testpretimes=elmsurvmodel$precitedtime
-##' #The predicted survival times on the first test example
-##' head(testpretimes[1,])
-##' #The predicted survival times of all test examples by the third model
-##' head(testpretimes[,3])
+##' elmsurvmodel=ELMBJEN(x=trset[,-rii],y=Surv(trset[,rii[1]], trset[,rii[2]]))
 ##' # Get the 1th base model
 ##' firstbasemodel=elmsurvmodel$elmsurvfit[[1]]
 ##' @export
-ELMSurvEN <-function(x,y,testx,mtry=floor(sqrt(ncol(x))),trlength=100, Regularization_coefficient=10000,
+ELMBJEN <-function(x,y,mtry=floor(sqrt(ncol(x))),trlength=100, Regularization_coefficient=10000,
                      Kernel_type="lin_kernel",Kernel_para=c(2,1))
   { 
     
@@ -85,10 +80,6 @@ ELMSurvEN <-function(x,y,testx,mtry=floor(sqrt(ncol(x))),trlength=100, Regulariz
     stop("Error:Unknow kernel types!")
   }
   
-  
-  
-  
-  precitedtime<-NULL
     
     rii=c(1,2)
     elmsurvfit <- vector(mode = "list", length = trlength)
@@ -104,18 +95,19 @@ ELMSurvEN <-function(x,y,testx,mtry=floor(sqrt(ncol(x))),trlength=100, Regulariz
     
     trainbag=newbagdata[sample(nrow(newbagdata),replace=T),] 
     
-    elmsurvfit[[i]]=elm_surv(trainx=trainbag[,-rii],
-                           trainy=Surv(trainbag[,1],trainbag[,2]),
-                           testx=data.frame(testx[,colindex]),
-                          Regularization_coefficient,
-                          kerneltype,Kernel_para)
-    precitedtime=cbind(precitedtime,elmsurvfit[[i]]$testpre) 
+    elmsurvfit[[i]]=ELMBJ(trainbag[,-rii],Surv(trainbag[,1],trainbag[,2]),
+                          Regularization_coefficient,kerneltype,Kernel_para)    
    }
     
-    fit=elmsurvfit
+    fit <- list()
+    fit$elmsurvfit=elmsurvfit
+	fit$colindexes=colindexes
+	fit$trlength=trlength
     
-    class(fit) <- "ELMSurvEN"
-    
-    return(list(elmsurvfit=elmsurvfit,precitedtime=precitedtime))
-}
+	
+    class(fit) <- "ELMBJEN"
 
+    fit
+    
+    
+}

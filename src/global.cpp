@@ -1,17 +1,11 @@
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iterator>
-#include <numeric>
-#include <string>
-#include <iostream>
-#include <RcppArmadillo.h>
+#include "global.h"
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
 using namespace Rcpp;
 using namespace arma;
 
+// [[Rcpp::export]]
 arma::mat mm_mult(NumericMatrix x,NumericMatrix y)
 {
 	arma::mat lhs =as <arma::mat>(x);
@@ -37,7 +31,7 @@ arma::mat mv_mult(NumericMatrix x,NumericVector y)
   return lhs * rhs;
 }
 
-
+//[[Rcpp::export]]
 Rcpp::NumericMatrix testDFtoNM(DataFrame x) {
   int nRows=x.nrows();  
   NumericMatrix y(nRows,x.size());
@@ -47,7 +41,7 @@ Rcpp::NumericMatrix testDFtoNM(DataFrame x) {
   return y;
 }
 
-
+//[[Rcpp::export]]
 Rcpp::List scaleNM(NumericMatrix x1) {
   NumericMatrix x=clone(x1);
   int nRows=x.nrow();  
